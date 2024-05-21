@@ -1,0 +1,2 @@
+slack_sdk
+awsfunctions==1.0.5

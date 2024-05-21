@@ -1,0 +1,5 @@
+requests
+slack_sdk
+pypika
+pymysql
+awsfunctions==1.0.5

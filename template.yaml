@@ -1,0 +1,95 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  FoundryRequests
+
+  Sample SAM Template for Foundry Requests
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 900
+    MemorySize: 512
+    Environment:
+      Variables:
+        slackBotTokenPath: /slackBotTokens/FoundryRequests
+        foundryManagerUserIDPath: /slackUserIDs/FoundryManager
+        dbSecretName: lguploaddblogin
+        awsRegion: us-east-2
+        excel_dir: /tmp/excel_workshop
+        lg_config: /tmp/lg_config
+        pydna_config_dir: /tmp/pydna
+        pydna_log_dir: /tmp/pydna
+        pydna_data_dir: /tmp/pydna
+
+Resources:
+  HomePageFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: ./HomePage/
+      Handler: app.lambda_handler
+      Runtime: python3.10
+      Architectures:
+        - x86_64
+#      Events:
+#        HomePage:
+#          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+#          Properties:
+#            Path: /FoundryRequests
+#            Method: get
+  SubmissionFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: ./Submission/
+      Handler: app.lambda_handler
+      Runtime: python3.10
+      Architectures:
+        - x86_64
+  SlackEventParserFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: ./SlackEventParser/
+      Handler: app.lambda_handler
+      Runtime: python3.10
+      Architectures:
+        - x86_64
+  AuthandResponseFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: ./AuthandResponse/
+      Handler: app.lambda_handler
+      Runtime: python3.10
+      Architectures:
+        - x86_64
+
+Outputs:
+  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
+  # Find out more about other implicit resources you can reference within SAM
+  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
+#  FoundryRequestsApi:
+#    Description: "API Gateway endpoint URL for Prod stage for IDTPrimerUpload function"
+#    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/FoundryRequests/"
+  HomePageFunction:
+    Description: "HomePage Lambda Function ARN"
+    Value: !GetAtt HomePageFunction.Arn
+  HomePageFunctionIamRole:
+    Description: "Implicit IAM Role created for HomePage function"
+    Value: !GetAtt HomePageFunctionRole.Arn
+  SubmissionFunction:
+    Description: "Submission Lambda Function ARN"
+    Value: !GetAtt SubmissionFunction.Arn
+  SubmissionFunctionIamRole:
+    Description: "Implicit IAM Role created for Submission function"
+    Value: !GetAtt SubmissionFunctionRole.Arn
+  SlackEventParserFunction:
+    Description: "SlackEventParser Lambda Function ARN"
+    Value: !GetAtt SlackEventParserFunction.Arn
+  SlackEventParserIamRole:
+    Description: "Implicit IAM Role created for SlackEventParser function"
+    Value: !GetAtt SlackEventParserFunctionRole.Arn
+  AuthandResponseFunction:
+    Description: "AuthandResponse Lambda Function ARN"
+    Value: !GetAtt AuthandResponseFunction.Arn
+  AuthandResponseIamRole:
+    Description: "Implicit IAM Role created for AuthandResponse function"
+    Value: !GetAtt AuthandResponseFunctionRole.Arn
