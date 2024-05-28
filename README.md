@@ -24,7 +24,7 @@ to package the four directories into Docker containers that are synced with the 
 ## Slack App View and Function
 After installing the FoundryRequests app to Slack, the app will check if you have a valid token to our company's electronic lab notebook, LabGuru, stored in the AWS RDS.
 Access tokens are shared across Slack applications via this AWS RDS, and the users can refresh their token from any of our Slack applications.
-Here is an example view of the RDS Users table:
+Here is an example view of the RDS Users table (Note the ids and tokens are random characters in the image):
 
 ![alt text](RDS_UsersTable.png)
 
