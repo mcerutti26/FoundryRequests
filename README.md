@@ -18,7 +18,7 @@ because this Lambda is the first Lambda triggered by the app, and Slack modals m
 - Submission - Creates an experiment in our LabGuru electronic lab notebook website and creates a dedicated Slack 
 channel for the request.
 
-The template.yaml file is a template that defines the application's AWS resource deployment and is used by Pycharm's AWS Toolkit 
+The template.yaml file is a template that defines the application's AWS resource deployment. The template.yaml file can be used by the SAM CLI directly or Pycharm's AWS Toolkit 
 to package the four directories into Docker containers that are synced with the associated AWS Lambda functions.
 
 ## Slack App View and Function
